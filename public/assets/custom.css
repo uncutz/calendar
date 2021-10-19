@@ -1,0 +1,31 @@
+.-primary-color {
+    background-color: #8773c1;
+}
+
+.js-add {
+    height: 1.7em;
+    width: 1.7em;
+    border: none;
+    /*border-radius: 50%;*/
+    color: white;
+    bottom: 40%;
+}
+
+.js-add:hover {
+    background-color: #755eb5;
+}
+.-new-event {
+    box-shadow: black;
+    height: 500px;
+    width: 200px;
+    position: absolute;
+    top: 0;
+}
+
+.js-render-popup {
+
+}
+
+.-form-textarea {
+    height: 10em;
+}

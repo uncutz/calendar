@@ -10,11 +10,14 @@ class Connection
 
     /** @var PDO */
     private $pdo;
-
-private $dbname = 'database';
-private $host = 'localhost';
-private $username = 'root';
-private $password = 'root';
+    /** @var string  */
+    private $dbname = 'database';
+    /** @var string  */
+    private $host = 'localhost';
+    /** @var string  */
+    private $username = 'root';
+    /** @var string  */
+    private $password = 'root';
 
 
     public function __construct()

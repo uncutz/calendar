@@ -2,14 +2,123 @@
 
 namespace Backend\Database;
 
+
+use DateTime;
+
 class Entry
 {
     /** @var int|null */
     private $id;
     /** @var string */
     private $name;
-    /** @var  */
+    /** @var string|null */
     private $content;
+    /** @var DateTime */
     private $entryDate;
+    /** @var DateTime */
     private $createdAt;
+
+    /**
+     * @param int|null $id
+     */
+    public function __construct(?int $id)
+    {
+        $this->id = $id;
+        $this->createdAt = new DateTime();
+    }
+
+    /**
+     * @param array $record
+     * @return self
+     */
+    public static function constructFromRecord(array $record): self
+    {
+        $entry = new self((int)$record['id']);
+        $entry->setName($record['name']);
+        $entry->setContent($record['content']);
+        $entry->setEntryDate($record['entry_date']);
+
+        $createdAt = DateTime::createFromFormat('Y-m-d H:i:s', $record['created_at']);
+        if (!$createdAt) {
+            throw new \LogicException('date could not be read');
+        }
+        $entry->createdAt = $createdAt;
+
+        return $entry;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int|null $id
+     */
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param string|null $content
+     */
+    public function setContent(?string $content): void
+    {
+        $this->content = $content;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getEntryDate(): DateTime
+    {
+        return $this->entryDate;
+    }
+
+    /**
+     * @param DateTime $entryDate
+     */
+    public function setEntryDate(DateTime $entryDate): void
+    {
+        $this->entryDate = $entryDate;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+
+
 }

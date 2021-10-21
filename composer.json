@@ -7,7 +7,10 @@
       "email": "johannes-panzer@gmx.de"
     }
   ],
-  "require": {},
+  "require": {
+    "ext-json": "*",
+    "ext-pdo": "*"
+  },
   "autoload": {
     "psr-4": {
       "Backend\\": "source/"

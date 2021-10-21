@@ -9,8 +9,8 @@ function saveEntry(entry) {
     ).then(response => response.json());
 }
 
-const API = {
+const Api = {
     saveEntry
 }
 
-export default API
+export default Api

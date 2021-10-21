@@ -1,4 +1,4 @@
-import API from "./app/API.js";
+import Api from "./app/api.js";
 
 export default function App() {
 
@@ -18,14 +18,13 @@ export default function App() {
             function collectEntryData() {
 
                 const entry = {
-                    id: 'vcdxmcemx',
+                    id: 0,
                     name: document.getElementById('name').value,
-                    description: document.getElementById('note').value,
+                    content: document.getElementById('note').value,
                     date: document.getElementById('date').value,
                     type: document.getElementById('type').value
                 }
-                console.log(entry)
-                API.saveEntry(entry)
+                Api.saveEntry(entry)
                     .then(data => console.log(data))
             }
         })

@@ -40,17 +40,38 @@ class EntryRepository
         return Entry::constructFromRecord($record);
     }
 
+
+    /**
+     * @return Entry[]
+     */
+    public function fetchAll(): array
+    {
+        $statement = $this->pdo->prepare('SELECT * FROM entry');
+        $statement->execute();
+        $record = $statement->fetchAll(PDO::FETCH_ASSOC);
+        if (!$record) {
+            return [];
+        }
+        return array_map(static function (array $record): Entry {
+            return Entry::constructFromRecord($record);
+        }, $record);
+    }
+
+    /**
+     * @param Entry $entry
+     */
     public function persist(Entry $entry): void
     {
         if (!$entry->getId()) {
             $statement = $this->pdo->prepare('
-                                                INSERT INTO entry (name, content, entry_date, created_at)
-                                                VALUES (:name, :content, :entry_date, :created_at)
+                                                INSERT INTO entry (name, content, type, entry_date, created_at)
+                                                VALUES (:name, :content, :type, :entry_date, :created_at)
             ');
 
             $succeeds = $statement->execute([
                 'name' => $entry->getName(),
                 'content' => $entry->getContent(),
+                'type' => $entry->getType(),
                 'entry_date' => $entry->getEntryDate()->format('Y-m-d H:i:s'),
                 'created_at' => $entry->getCreatedAt()->format('Y-m-d H:i:s')
 
@@ -63,13 +84,14 @@ class EntryRepository
         } else {
             $statement = $this->pdo->prepare('
                                                 UPDATE entry 
-                                                SET name = :name, content = :content, entry_date = :entry_date
+                                                SET name = :name, content = :content, type = :type, entry_date = :entry_date
                                                 WHERE id = :id
                                                 ');
             $succeeds = $statement->execute([
                 'name' => $entry->getName(),
                 'content' => $entry->getContent(),
-                'entry_date' => $entry->getEntryDate()->format('Y-m-d'),
+                'type' => $entry->getType(),
+                'entry_date' => $entry->getEntryDate()->format('Y-m-d H:i:s'),
                 'id' => $entry->getId()
             ]);
 

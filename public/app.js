@@ -4,15 +4,28 @@ export default function App() {
 
     this.run = function () {
 
+
+        Api.getAllEntries().then(
+            data => {
+                console.log(data)
+                data.entries.forEach(
+                    entry => {
+                        console.log(entry)
+                        $('#calendar').evoCalendar('addCalendarEvent', {
+                            id: entry.id,
+                            name: entry.name,
+                            description: entry.content,
+                            date: entry.entryDate,
+                            type: (entry.type ? entry.type : '')
+                        })
+                    }
+                )
+            }
+        )
+
+        console.log($('#calendar').evoCalendar('getActiveDate'))
         document.querySelector('.js-submit').addEventListener('click', function () {
 
-            /*$('#calendar').evoCalendar('addCalendarEvent', {
-                id: 'vcdxmcemx',
-                name: document.getElementById('name').value,
-                description: document.getElementById('note').value,
-                date: document.getElementById('date').value,
-                type: document.getElementById('type').value
-            })*/
             collectEntryData();
 
             function collectEntryData() {
@@ -21,13 +34,22 @@ export default function App() {
                     id: 0,
                     name: document.getElementById('name').value,
                     content: document.getElementById('note').value,
-                    date: document.getElementById('date').value,
-                    type: document.getElementById('type').value
+                    type: document.getElementById('type').value,
+                    date: document.getElementById('date').value
                 }
                 Api.saveEntry(entry)
-                    .then(data => console.log(data))
+                    .then(data => {
+                            console.log(data)
+                            $('#calendar').evoCalendar('addCalendarEvent', {
+                                id: data.entry.id,
+                                name: data.entry.name,
+                                description: data.entry.content,
+                                date: data.entry.entryDate,
+                                type: data.entry.type
+                            })
+                        }
+                    )
             }
         })
     }
 }
-//'October 27, 2021'

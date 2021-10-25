@@ -13,6 +13,8 @@ class Entry
     private $name;
     /** @var string|null */
     private $content;
+    /** @var string|null */
+    private $type;
     /** @var DateTime */
     private $entryDate;
     /** @var DateTime */
@@ -35,8 +37,15 @@ class Entry
     {
         $entry = new self((int)$record['id']);
         $entry->setName($record['name']);
-        $entry->setContent($record['content']);
-        $entry->setEntryDate($record['entry_date']);
+        $entry->setEntryDate(DateTime::createFromFormat('Y-m-d H:i:s', $record['entry_date']));
+
+        if ($record['content']) {
+            $entry->setContent($record['content']);
+        }
+
+        if ($record['type']) {
+            $entry->setType($record['type']);
+        }
 
         $createdAt = DateTime::createFromFormat('Y-m-d H:i:s', $record['created_at']);
         if (!$createdAt) {
@@ -96,6 +105,23 @@ class Entry
     }
 
     /**
+     * @return string|null
+     */
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string|null $type
+     */
+    public function setType(?string $type): void
+    {
+        $this->type = $type;
+    }
+
+
+    /**
      * @return DateTime
      */
     public function getEntryDate(): DateTime
@@ -118,7 +144,6 @@ class Entry
     {
         return $this->createdAt;
     }
-
 
 
 }

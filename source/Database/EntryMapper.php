@@ -27,6 +27,14 @@ class EntryMapper
     }
 
     /**
+     * @return Entry[]
+     */
+    public function fetchAll(): array
+    {
+        return $this->entryRepository->fetchAll();
+    }
+
+    /**
      * @param Entry $payload
      */
     public function persist(Entry $payload): void

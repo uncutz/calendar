@@ -1,5 +1,5 @@
 function saveEntry(entry) {
-    return fetch('/server.php', {
+    return fetch('/save', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -9,8 +9,14 @@ function saveEntry(entry) {
     ).then(response => response.json());
 }
 
+function getAllEntries() {
+    return fetch('/allEntries')
+        .then(response => response.json())
+}
+
 const Api = {
-    saveEntry
+    saveEntry,
+    getAllEntries
 }
 
 export default Api
